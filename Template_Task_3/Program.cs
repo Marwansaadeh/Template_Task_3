@@ -27,7 +27,7 @@ internal class Program
 
         bool running = true;
 
-       do
+        do
         {
             PrintMenu();
 
@@ -129,7 +129,7 @@ internal class Program
             Console.ReadKey();
             Console.Clear();
         }
-        while(running);
+        while (running);
     }
 
     static void PrintMenu()
@@ -159,8 +159,23 @@ internal class Program
         // TODO:
         // Lägg till minst 10 produkter i products-dictionaryn.
         // Välj egna koder, namn, priser och lagersaldon.
+        var seededProducts = new List<Product>
+         {
+            new Product ( Guid.NewGuid().ToString(), "Coca-Cola 33cl", 20.00m, 50 ),
+            new Product ( Guid.NewGuid().ToString(), "Pepsi 33cl", 20.00m, 45 ),
+            new Product ( Guid.NewGuid().ToString(), "Snickers",15.00m, 60 ),
+            new Product ( Guid.NewGuid().ToString(), "Marabou Milk Chocolate", 30.00m, 40 ),
+            new Product ( Guid.NewGuid().ToString(), "Potato Chips",25.00m, 35 ),
+            new Product ( Guid.NewGuid().ToString(), "Chewing Gum", 10.00m, 100 ),
+            new Product ( Guid.NewGuid().ToString(), "Bottled Water 50cl", 15.00m, 80 ),
+            new Product (Guid.NewGuid().ToString(),  "Energy Drink", 25.00m, 30 ),
+            new Product (Guid.NewGuid().ToString(),  "Sandwich Ham & Cheese", 45.00m, 20 ),
+            new Product (Guid.NewGuid().ToString(),  "Coffee Cup", 20.00m, 25 )
+          };
 
-
+        products = seededProducts.ToDictionary(
+        p => p.Code,
+        p => p);
     }
 
     static void PrintProducts()
@@ -173,6 +188,10 @@ internal class Program
         // Räkna även ut totalt lagervärde.
         // Lagervärde för en produkt:
         // product.Price * product.Stock
+        foreach (var prodouct in products.Values)
+        {
+            Console.WriteLine(prodouct.ToString());
+        }
 
 
         // Fråga:
@@ -183,7 +202,7 @@ internal class Program
     static void FindProduct()
     {
         Console.Write("Ange produktkod: ");
-        
+
 
         // TODO:
         // Hämta produktens code
@@ -202,7 +221,7 @@ internal class Program
     static void AddProduct()
     {
         Console.WriteLine("TODO: Implementera AddProduct.");
-      
+
         // TODO:
         // Läs in produktkod.
         // Gör produktkoden till stora bokstäver med .ToUpper().
@@ -286,7 +305,7 @@ internal class Program
     static void AddCustomerToQueue()
     {
         Console.WriteLine("TODO: Implementera AddCustomerToQueue.");
-        
+
         // TODO:
         // Läs in kundens namn (använd InputHelpers.ReadString).
         // Skapa ett Customer-objekt med namnet.
@@ -302,7 +321,7 @@ internal class Program
     static void ServeNextCustomer()
     {
         Console.WriteLine("TODO: Implementera ServeNextCustomer.");
-        
+
         // TODO:
         // Kontrollera om customerQueue är tom — skriv meddelande om den är det.
         // Om den inte är tom:
@@ -588,7 +607,7 @@ internal class Program
             Console.WriteLine("Strängen är INTE välformad.");
         }
 
-        
+
     }
 
     static bool CheckParentheses(string text)
