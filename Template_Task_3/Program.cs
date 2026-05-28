@@ -159,23 +159,25 @@ internal class Program
         // TODO:
         // Lägg till minst 10 produkter i products-dictionaryn.
         // Välj egna koder, namn, priser och lagersaldon.
-        var seededProducts = new List<Product>
-         {
-            new Product ( Guid.NewGuid().ToString(), "Coca-Cola 33cl", 20.00m, 50 ),
-            new Product ( Guid.NewGuid().ToString(), "Pepsi 33cl", 20.00m, 45 ),
-            new Product ( Guid.NewGuid().ToString(), "Snickers",15.00m, 60 ),
-            new Product ( Guid.NewGuid().ToString(), "Marabou Milk Chocolate", 30.00m, 40 ),
-            new Product ( Guid.NewGuid().ToString(), "Potato Chips",25.00m, 35 ),
-            new Product ( Guid.NewGuid().ToString(), "Chewing Gum", 10.00m, 100 ),
-            new Product ( Guid.NewGuid().ToString(), "Bottled Water 50cl", 15.00m, 80 ),
-            new Product (Guid.NewGuid().ToString(),  "Energy Drink", 25.00m, 30 ),
-            new Product (Guid.NewGuid().ToString(),  "Sandwich Ham & Cheese", 45.00m, 20 ),
-            new Product (Guid.NewGuid().ToString(),  "Coffee Cup", 20.00m, 25 )
-          };
+        products["COLA"] = new Product(Guid.NewGuid().ToString(), "Coca-Cola 33cl", 20.00m, 50);
 
-        products = seededProducts.ToDictionary(
-        p => p.Code,
-        p => p);
+        products["PEPSI"] = new Product(Guid.NewGuid().ToString(), "Pepsi 33cl", 20.00m, 45);
+
+        products["SNICKERS"] = new Product(Guid.NewGuid().ToString(), "Snickers", 15.00m, 60);
+
+        products["MARABOU"] = new Product(Guid.NewGuid().ToString(), "Marabou Milk Chocolate", 30.00m, 40);
+
+        products["CHIPS"] = new Product(Guid.NewGuid().ToString(), "Potato Chips", 25.00m, 35);
+
+        products["GUM"] = new Product(Guid.NewGuid().ToString(), "Chewing Gum", 10.00m, 100);
+
+        products["WATER"] = new Product(Guid.NewGuid().ToString(), "Bottled Water 50cl", 15.00m, 80);
+
+        products["ENERGY"] = new Product(Guid.NewGuid().ToString(), "Energy Drink", 25.00m, 30);
+
+        products["SANDWICH"] = new Product(Guid.NewGuid().ToString(), "Sandwich Ham & Cheese", 45.00m, 20);
+
+        products["COFFEE"] = new Product(Guid.NewGuid().ToString(), "Coffee Cup", 20.00m, 25);
     }
 
     static void PrintProducts()
@@ -191,12 +193,15 @@ internal class Program
         foreach (var prodouct in products.Values)
         {
             Console.WriteLine(prodouct.ToString());
+            Console.WriteLine($"Totalt lagervärde för {prodouct.Name}: {prodouct.Price * prodouct.Stock}");
         }
+
+        Console.WriteLine($"Totalt lagervärde: {products.Values.Sum(p => p.Price * p.Stock)}");
 
 
         // Fråga:
         // Varför passar Dictionary bra för ett produktregister?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - the main idea is a the key, when we have a key is easy to find and deal with, and better for performance, ex: no looping to find a product");
     }
 
     static void FindProduct()
@@ -212,10 +217,12 @@ internal class Program
         // Om produkten saknas, skriv ett felmeddelande.
 
         Console.WriteLine("TODO: Implementera FindProduct.");
-
+        string productCode = Console.ReadLine() ?? string.Empty;
+        Product selectedProduct = CheckHelper.CheckProductByCode(productCode, products);
+        Console.WriteLine(selectedProduct is not null ? selectedProduct!.ToString() : "Produkten finns inte.");
         // Fråga:
         // Varför är TryGetValue bättre än att skriva products[code] direkt?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: the program will not crash, and we can controll, validate and show messages to the user");
     }
 
     static void AddProduct()
@@ -232,6 +239,32 @@ internal class Program
         // Skapa ett Product-objekt.
         // Lägg till produkten i products-dictionaryn.
         // Lägg till ett loggmeddelande i logMessages.
+        string productCode;
+        Product newProduct;
+        do
+        {
+            Console.Write("Enter product code: ");
+            productCode = Console.ReadLine() ?? string.Empty;
+            newProduct = CheckHelper.CheckProductByCode(productCode.ToUpper(), products);
+            if (newProduct is not null)
+            {
+                Console.WriteLine("Produkten finns inte.");
+            }
+   
+        } while (string.IsNullOrWhiteSpace(productCode) || newProduct is not null);
+
+        string name;
+        do{
+            Console.Write("Enter product name: ");
+            name = Console.ReadLine() ?? string.Empty;
+        } while (string.IsNullOrWhiteSpace(name)) ;
+
+
+        decimal price = InputHelpers.ReadDecimal("Enter product price: ");
+        int stock = InputHelpers.ReadInt("Enter product stock: ");
+        newProduct = new Product(productCode, name ,price,stock);
+        products.Add(newProduct.Code, newProduct);
+        Console.WriteLine($"the new product has been add {products[newProduct.Code].ToString()}");
 
         // Fråga:
         // Vad är nyckeln och vad är värdet i products?
