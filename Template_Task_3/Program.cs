@@ -178,6 +178,11 @@ internal class Program
         products["SANDWICH"] = new Product(Guid.NewGuid().ToString(), "Sandwich Ham & Cheese", 45.00m, 20);
 
         products["COFFEE"] = new Product(Guid.NewGuid().ToString(), "Coffee Cup", 20.00m, 25);
+        products["KAF"] = new Product(Guid.NewGuid().ToString(), "KAF", 15.00m, 25);
+        products["TE"] = new Product(Guid.NewGuid().ToString(), "Tea", 12.00m, 25);
+        products["BUL"] = new Product(Guid.NewGuid().ToString(), "Bul", 18.00m, 25);
+        products["MCK"] = new Product(Guid.NewGuid().ToString(), "MCH", 35.00m, 25);
+
     }
 
     static void PrintProducts()
@@ -339,9 +344,20 @@ internal class Program
 
         // Fråga:
         // Varför är Dictionary-lösningen bättre än många if/else-satser?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Product selectedProduct;
+        
+        while (string.IsNullOrWhiteSpace(code))
+        {
+            Console.WriteLine("Enter a code please");
+            code = Console.ReadLine() ?? string.Empty;
+            
+        }
+        selectedProduct = CheckHelper.CheckProductByCode(code, products);
 
-        return -1;
+
+        Console.WriteLine("Svar: Find the product by index without executing if else what if we have many products, no need to loop");
+
+        return selectedProduct is null ? -1 : selectedProduct.Price;
     }
 
     #endregion
