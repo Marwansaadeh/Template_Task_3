@@ -254,7 +254,9 @@ internal class Program
         } while (string.IsNullOrWhiteSpace(productCode) || newProduct is not null);
 
         string name;
-        do{
+
+        do
+        {
             Console.Write("Enter product name: ");
             name = Console.ReadLine() ?? string.Empty;
         } while (string.IsNullOrWhiteSpace(name)) ;
@@ -268,7 +270,7 @@ internal class Program
 
         // Fråga:
         // Vad är nyckeln och vad är värdet i products?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: the key is like index for each item in producs list, easy to find and get, the products is the acutall object that match that key");
     }
 
     static void ChangeStock()
@@ -282,7 +284,22 @@ internal class Program
         // Ändra produktens Stock. Validera även i product
         // 
         // Logga ändringen.
+        Product selectedProduct;
+        string productCode;
+        do
+        {
+            Console.Write("Enter product code: ");
+            productCode = Console.ReadLine() ?? string.Empty;
+            selectedProduct = CheckHelper.CheckProductByCode(productCode.ToUpper(), products);
+            if (selectedProduct is null)
+            {
+                Console.WriteLine("Produkten finns inte.");
+            }
 
+        } while (string.IsNullOrWhiteSpace(productCode) || selectedProduct is null);
+        int newStock = InputHelpers.ReadInt("Enter new stock: ");
+        selectedProduct.Stock = newStock;
+        Console.WriteLine(products[productCode].ToString());
     }
 
     static decimal GetPriceBad(string code)
