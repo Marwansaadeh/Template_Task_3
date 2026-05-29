@@ -469,12 +469,36 @@ internal class Program
         // Extra:
         // Bestäm om kunden ska tas bort från kön efter köp eller inte.
         // Motivera ditt val i kommentar.
-
         Console.WriteLine("TODO: Implementera SellProduct.");
+        customerQueue.Enqueue(new Customer("Customer1"));
+        customerQueue.Enqueue(new Customer("Customer2"));
+        if (customerQueue.Count == 0)
+        {
+            Console.WriteLine("No customers in queue");
+        }
+        else
+        {
+            Console.WriteLine($"Customer {customerQueue.Peek().ToString()} is buying a product");
+           
+        }
+        string productCode = InputHelpers.ReadString("Enter product Code");
+
+        Product selectedProduct = CheckHelper.CheckProductByCode(productCode, products);
+        if (selectedProduct is not null)
+        {
+            selectedProduct.Stock = selectedProduct.Stock > 0
+            ? selectedProduct.Stock - 1 : 0;
+            saleHistory.Push(new Sale(productCode, selectedProduct.Name, selectedProduct.Price, customerQueue.Peek().Name));
+            logMessages.Add($"Customer {customerQueue.Peek().ToString()} bought product {selectedProduct.Name}");
+        }
+        else
+        {
+            Console.WriteLine("Product not found");
+        }
 
         // Fråga:
         // Varför sparar vi försäljningar i en Stack?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - last in, first out, we can see the lastest sales process ");
     }
 
     static void UndoLastSale()
@@ -488,10 +512,28 @@ internal class Program
         // Slå upp produkten i products med försäljningens ProductCode.
         // Öka produktens Stock med 1.
         // Logga vad som ångrades i logMessages.
-
+        if(saleHistory.Count == 0)
+        {
+            Console.WriteLine("there is no sales history");
+        }
+        else
+        {
+           Sale lastSale= saleHistory.Pop();
+           Product unsoldProduct= CheckHelper.CheckProductByCode(lastSale.ProductCode, products);
+            if (unsoldProduct is not null)
+            {
+               Console.WriteLine(unsoldProduct.ToString());
+                unsoldProduct.Stock += 1;
+            }
+            else
+            {
+                Console.WriteLine("Product not found");
+            }
+            logMessages.Add($"the last sale of product {lastSale.ProductName} by customer {lastSale.CustomerName} has been undone");
+        }
         // Fråga:
         // Vad betyder LIFO?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - last in, first out");
     }
 
     static void ReverseTextLab()
@@ -502,6 +544,18 @@ internal class Program
         // TODO:
         // Läs in en text från användaren.
         // Skriv ut texten bakofram använd en lämplig collektion.
+        string input = InputHelpers.ReadString("Enter a text to reverse");
+        Stack<char> stackText = new Stack<char>();
+
+        foreach (char letter in input.ToCharArray()) 
+        {
+            stackText.Push(letter);
+        }
+
+        foreach (char letter in stackText)
+        {
+            Console.Write(letter);
+        }
     }
 
     #endregion
