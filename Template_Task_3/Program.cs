@@ -378,10 +378,15 @@ internal class Program
         // Lägg kunden i customerQueue med Enqueue.
         // Skriv ut att kunden lagts till och vilken plats i kön de har.
         // Lägg till ett loggmeddelande i logMessages.
+        string customerName = InputHelpers.ReadString("Please type customer name");
+        Customer customer = new Customer(customerName);
+        customerQueue.Enqueue(customer);
 
+        Console.WriteLine($"Customer {customerQueue.Peek().ToString()} first in queue");
+        logMessages.Add($"Customer {customerQueue.Peek().ToString()} had been added");
         // Fråga:
         // Vad betyder FIFO?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - first in, first out");
     }
 
     static void ServeNextCustomer()
@@ -394,10 +399,20 @@ internal class Program
         // Använd Dequeue för att ta bort och hämta den första kunden.
         // Skriv ut vilken kund som blev betjänad.
         // Lägg till ett loggmeddelande i logMessages.
+        if(customerQueue.Count > 0)
+        {
+            Customer servedCustomer = customerQueue.Dequeue();
+            Console.WriteLine($"Customer {servedCustomer.ToString()} has been served");
+            logMessages.Add($"Customer {servedCustomer.ToString()} has been served");
+        }
+        else
+        {
+            Console.WriteLine("No customers in queue");
+        }
 
         // Fråga:
         // Varför passar Queue bättre än Stack för en kundkö?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - because the customer should added to the system first should serve first, stack is opposite last in, first out");
     }
 
     static void PrintCustomerQueue()
@@ -415,6 +430,17 @@ internal class Program
         // 3. Stina (2026-05-26 10:03)
         //
         // Tips: foreach fungerar på Queue utan att ta bort elementen.
+
+        if (customerQueue.Count == 0)
+        {
+            Console.WriteLine("there is no customer to serve yet in queue");
+        }
+        int place = 1;
+        foreach (var customer in customerQueue)
+        {
+            Console.WriteLine($"{place.ToString() +". "+ customer.ToString()}");
+            place++;
+        }
 
         Console.WriteLine("TODO: Implementera PrintCustomerQueue.");
     }
