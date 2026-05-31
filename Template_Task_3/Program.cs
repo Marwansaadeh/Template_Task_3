@@ -275,7 +275,7 @@ internal class Program
 
         // Fråga:
         // Vad är nyckeln och vad är värdet i products?
-        Console.WriteLine("Svar: the key is like index for each item in producs list, easy to find and get, the products is the acutall object that match that key");
+        Console.WriteLine("Svar: easy to find, get the products by key, because products are many in database");
     }
 
     static void ChangeStock()
@@ -355,7 +355,7 @@ internal class Program
         selectedProduct = CheckHelper.CheckProductByCode(code, products);
 
 
-        Console.WriteLine("Svar: Find the product by index without executing if else what if we have many products, no need to loop");
+        Console.WriteLine("Svar: Find the product by key without executing link and loop in long list of products");
 
         return selectedProduct is null ? -1 : selectedProduct.Price;
     }
@@ -573,12 +573,23 @@ internal class Program
         // TODO:
         // Om logMessages är tom, skriv "Inga loggmeddelanden finns."
         // Annars: loopa igenom logMessages och skriv ut varje meddelande.
+        if(logMessages.Count == 0)
+        {
+            Console.WriteLine("Inga loggmeddelanden finns.");
+        }
+        else
+        {
+            foreach (var log in logMessages)
+            {
+                Console.WriteLine(log);
+            }
+        }
 
         Console.WriteLine("TODO: Implementera PrintLog.");
 
         // Fråga:
         // Varför passar List bra för loggmeddelanden?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - it loops in the order at the times the log message that added");
     }
 
     static void ListLab()
@@ -611,21 +622,34 @@ internal class Program
         // Lägg till minst 4 egna varor med en loop.
         // Skriv ut hela listan.
 
+        List<string> productNames = new List<string> { "Mjölk", "Smör", "Ost", "Yoghurt" };
+        List<Product> productsToBay = new List<Product>();
+
+        for (int i = 0; i < productNames.Count; i++)
+        {
+            productsToBay.Add(new Product(productNames[i], productNames[i], 10m, i + 1));
+        }
+        foreach (var product in productsToBay)
+        {
+            Console.WriteLine(product.Name);
+        }
+
+
         // Fråga 1:
         // Vad betyder Count?
-        Console.WriteLine("Svar 1: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 1: TODO - total number of the elements in the list");
 
         // Fråga 2:
         // Vad betyder Capacity?
-        Console.WriteLine("Svar 2: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 2: TODO - how many elements the list max currently can hold ");
 
         // Fråga 3:
         // Varför ökar inte Capacity med exakt 1 varje gång?
-        Console.WriteLine("Svar 3: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 3: TODO - if we incrase the capasity every add it will internally create a new array with new capacity every time ");
 
         // Fråga 4:
         // Minskar Capacity automatiskt när element tas bort?
-        Console.WriteLine("Svar 4: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 4: TODO - no, it will not create a new array internally, it will just create a new array when it reach above the total capacity");
     }
 
     static void PrintListInfo(List<string> list, string message)
