@@ -674,23 +674,29 @@ internal class Program
         // TODO:
         // Skriv ut alla veckodagar med en for-loop.
         // Tips: använd weekdays.Length för att veta hur många element det finns.
-
+        for (int i = 0; i < weekdays.Length; i++)
+        {
+            Console.WriteLine(weekdays[i]);
+        }
         // TODO:
         // Skriv ut alla veckodagar med foreach.
-
+        foreach (var day in weekdays)
+        {
+            Console.WriteLine(day);
+        }
         Console.WriteLine("TODO: Implementera utskrifter i ArrayLab.");
 
         // Fråga 1:
         // När passar en array bättre än en List?
-        Console.WriteLine("Svar 1: TODO - skriv ditt svar här");
-
+        Console.WriteLine("Svar 1: When we know how many elements an array will have and we spcifiy the length, In contrast with list, it crease a cop of new array and it needs to increase the size ");
+       
         // Fråga 2:
         // Vad händer om du försöker skriva weekdays[5]?
-        Console.WriteLine("Svar 2: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 2: TODO - IndexOutOfRangeException ");
 
         // Fråga 3:
         // Varför måste arrayens storlek anges från början?
-        Console.WriteLine("Svar 3: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 3: TODO - In contrast with list, we don't need to increase the size, it is better for memory");
     }
 
     #endregion
