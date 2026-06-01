@@ -716,7 +716,7 @@ internal class Program
 
         //ToDo: Skriv koden för CountWords
         Dictionary<string, int> wordCounts = CountWords(text);
-
+       
         Console.WriteLine("Resultat:");
 
         foreach (KeyValuePair<string, int> pair in wordCounts)
@@ -726,7 +726,7 @@ internal class Program
 
         // Fråga:
         // Varför passar Dictionary bra när vi ska räkna ord?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO -  A Dictionary is useful because it lets us use each word as a key and store its number of occurrences as the value. This makes it easy and efficient to count how many times each word appears.");
     }
 
     static Dictionary<string, int> CountWords(string text)
@@ -743,10 +743,24 @@ internal class Program
         // Gör varje ord till gemener med .ToLower() så att "Hej" och "hej" räknas som samma.
         // Om ordet redan finns i wordCounts → öka värdet med 1.
         // Annars → lägg till ordet med värdet 1.
+        text.Split(new char[] { ' ', '.', '!', '?', ':', ';' }, StringSplitOptions.RemoveEmptyEntries)
+            .ToList()
+            .ForEach(word =>
+            {
+                string lowerWord = word.ToLower();
+                if (wordCounts.ContainsKey(lowerWord))
+                {
+                    wordCounts[lowerWord]++;
+                }
+                else
+                {
+                    wordCounts[lowerWord] = 1;
+                }
+            });
 
         // Fråga:
         // Vad är nyckeln och vad är värdet i wordCounts?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - key is the word and value is the total letters");
 
         return wordCounts;
     }
@@ -782,8 +796,6 @@ internal class Program
         {
             Console.WriteLine("Strängen är INTE välformad.");
         }
-
-
     }
 
     static bool CheckParentheses(string text)
@@ -795,15 +807,40 @@ internal class Program
         // Låt dictionaryn mappa varje stängande parentes till sin matchande öppnare.
         // Det gör matchningskontrollen till en enkel uppslagning istället för flera if-satser.
         //
+
+        Dictionary<char, char> parentheses = new Dictionary<char, char>
+        {
+            { ']', '[' },
+            { ')', '(' },
+            { '}', '{' }
+        };
+
         // Tips Stack:
         // Stacken håller reda på vilka öppnare du sett men ännu inte stängt.
         // Tänk på vad LIFO innebär här — varför är det precis rätt egenskap för det här problemet?
         //
+            Stack<char> stack = new Stack<char>();
+
+            foreach (char item in text)
+            {
+                if(parentheses.ContainsValue(item))
+                {
+                    stack.Push(item);
+                }
+                else if (parentheses.ContainsKey(item))
+                {
+                    if (stack.Count == 0 || stack.Pop() != parentheses[item])
+                    {
+                        return false;
+                    }
+                }
+            }
+
         // Fråga:
         // Varför är Dictionary + Stack bättre än bara Stack med if/else för matchningen?
-        Console.WriteLine("Svar: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar: TODO - stack last in first out, it give last elelemnt that we should close it and so on, order is easy, dictionary is easy to find by key, and value that should must so we don't need if else to check this matches this´, easy to read and handle");
 
-        return false;
+        return stack.Count == 0;
     }
 
     // ============================================================
@@ -857,31 +894,31 @@ internal class Program
 
         // Fråga 1:
         // Varför ändras inte number1 när number2 ändras?
-        Console.WriteLine("Svar 1: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 1: TODO - it will create a new copy on the stack, the original value stays same");
 
         // Fråga 2:
         // Varför ändras inte score1.Points när score2.Points ändras?
-        Console.WriteLine("Svar 2: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 2: TODO - becuase score2 it is a stuct value type it will create a new copy for score2 with on the stack spereated from score1 ");
 
         // Fråga 3:
         // Varför ändras product1.Stock när product2.Stock ändras?
-        Console.WriteLine("Svar 3: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 3: TODO - because it is a reference type, and product one and two they will point to the same object on the heap, then product2 changes the object field, both they are pointing to the same object");
 
         // Fråga 4:
         // Är Product en value type eller reference type?
-        Console.WriteLine("Svar 4: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 4: TODO - reference type");
 
         // Fråga 5:
         // Vad ligger på heapen i Product-exemplet?
-        Console.WriteLine("Svar 5: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 5: TODO - one object with with four properties ");
 
         // Fråga 6:
         // Vad innebär det att två variabler kan peka på samma objekt?
-        Console.WriteLine("Svar 6: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 6: TODO - on the stack we have product1,2 and they point to the same object on heap");
 
         // Fråga 7:
         // Vad är skillnaden mellan stacken i minnet och Stack<T> som datastruktur?
-        Console.WriteLine("Svar 7: TODO - skriv ditt svar här");
+        Console.WriteLine("Svar 7: TODO - stack in memory is execute by compile time, we can not controllerd it, it is automatically manages data and remove it from memory when the function executes, stack<T>, It is a list where we add items, solve problems");
     }
 
     #endregion
